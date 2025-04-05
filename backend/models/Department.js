@@ -4,6 +4,10 @@ const departmentSchema = ({
     department_name: {
         type: String,
         required: true
+    },
+    department_head: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Employee"
     }
 })
 

@@ -20,9 +20,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Your Password Is Required"]
     },
+    profile_picture: {
+        type: String
+    },
     role: {
         type: String,
-        emum: ["Admin", "Data-Officer", "Director"]
+        emum: ["Admin", "HR Manager", "Department Head", "Employee"]
     },
     createdAt:{
         type: Date,

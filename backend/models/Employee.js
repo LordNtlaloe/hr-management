@@ -25,7 +25,7 @@ const EmployeeSchema = new mongoose.Schema({
         country: String
     },
     profile_picture: {
-        type: String // URL to profile image
+        type: String
     },
     date_of_birth: {
         type: Date
