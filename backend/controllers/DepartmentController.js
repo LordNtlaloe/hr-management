@@ -11,10 +11,10 @@ const getDepartments = async (req, res) => {
 
 const getDepartment = async (req, res) => {
   try {
-    const { id } = req.params; 
-    
+    const { id } = req.params;
+
     const department = await Department.findById(id);
-    
+
     if (!department) {
       return res.status(404).json({ message: "Department not found" });
     }
@@ -29,8 +29,8 @@ const createDepartment = async (req, res) => {
   try {
     const { department_name } = req.body;
 
-    // Check if all required fields are present
-    if (department_name) {
+    // Corrected condition - check if department_name is MISSING
+    if (!department_name) {
       return res.status(400).json({
         message: "Department Name Is Required."
       });

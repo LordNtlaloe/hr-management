@@ -2,8 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 module.exports.authMiddleware = (req, res, next) => {
-  // console.log("Cookies received:", req.cookies); // Debugging cookie
-  const token = req.cookies.token;
+  const token = req.cookies.token; // Make sure token is being sent in cookies
   if (!token) {
     return res.status(403).json({ message: "Unauthorized Access" });
   }
@@ -13,8 +12,7 @@ module.exports.authMiddleware = (req, res, next) => {
       return res.status(401).json({ message: "Invalid Token" });
     }
 
-    // console.log("Decoded User:", decoded); // Debugging user data
-    req.user = decoded;
+    req.user = decoded;  // Attach the user data to the request object
     next();
   });
 };

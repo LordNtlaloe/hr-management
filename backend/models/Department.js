@@ -1,7 +1,10 @@
-const mongoose = require("mogoose");
+const mongoose = require("mongoose");
 
 const departmentSchema = ({
-    department_name: { type: String, required }
+    department_name: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = mongoose.model("Department", departmentSchema)

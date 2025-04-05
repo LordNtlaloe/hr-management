@@ -11,10 +11,10 @@ const getMinistries = async (req, res) => {
 
 const getMinistry = async (req, res) => {
   try {
-    const { id } = req.params; 
-    
+    const { id } = req.params;
+
     const ministry = await Ministry.findById(id);
-    
+
     if (!ministry) {
       return res.status(404).json({ message: "Ministry not found" });
     }
@@ -27,10 +27,10 @@ const getMinistry = async (req, res) => {
 
 const createMinistry = async (req, res) => {
   try {
-    const { department_name } = req.body;
+    const { ministry_name } = req.body;
 
-    // Check if all required fields are present
-    if (department_name) {
+    // Corrected condition - check if ministry_name is MISSING
+    if (!ministry_name) {
       return res.status(400).json({
         message: "Ministry Name Is Required."
       });

@@ -1,59 +1,63 @@
-const User = require("../models/User");
-const EmployeeDetails = require("../models/EmployeeDetails")
+const EmployeeDetails = require("../models/EmployeeDetails");
 
-
+// Get all employee details
 const getEmployeeDetails = async (req, res) => {
     try {
-        const employeeDetails = await EmployeeDetails.find({});
+        const employeeDetails = await EmployeeDetails.find({})
+            .populate("employee_id", "first_name last_name email phone_number")  // Populate employee details
+            .populate("department_id", "department_name")                         // Populate department details
+            .populate("ministry_id", "ministry_name");                            // Populate ministry details
+        
         res.status(200).json(employeeDetails);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+
+// Get single employee detail by ID
 const getEmployeeDetail = async (req, res) => {
     try {
         const { id } = req.params;
-        const employee = await EmployeeDetails.findById(id);
+        const employee = await EmployeeDetails.findById(id)
+            .populate("employee_id", "name")
+            .populate("department_id", "name")
+            .populate("ministry_id", "name");
+
+        if (!employee) {
+            return res.status(404).json({ message: "Employee details not found" });
+        }
+
         res.status(200).json(employee);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+// Create employee details
 const createEmployeeDetails = async (req, res) => {
     try {
-        const { employee } = req.body;
+        const data = req.body;
 
-        // Validate user id
-        const employeeExists = await User.findById(employee);
-        if (!employeeExists) {
-            return res.status(400).json({ message: "Invalid Employee Number" });
-        }
-
-        // Create the create employee details document
-        const employeeDetails = await EmployeeDetails.create(req.body);
+        const employeeDetails = await EmployeeDetails.create(data);
         res.status(201).json(employeeDetails);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+// Update employee details
 const updateEmployeeDetails = async (req, res) => {
     try {
         const { id } = req.params;
-        const { employee } = req.body;
+        const data = req.body;
 
-        if (employeey) {
-            const employeeExists = await User.findById(employee);
-            if (!employeeExists) {
-                return res.status(400).json({ message: "Invalid Employee Number" });
-            }
-        }
+        const employeeDetails = await EmployeeDetails.findByIdAndUpdate(id, data, {
+            new: true,
+        });
 
-        const employeeDetails = await EmployeeDetails.findByIdAndUpdate(id, req.body, { new: true });
         if (!employeeDetails) {
-            return res.status(404).json({ message: "Employee Details Not Found" });
+            return res.status(404).json({ message: "Employee details not found" });
         }
 
         res.status(200).json(employeeDetails);
@@ -62,16 +66,18 @@ const updateEmployeeDetails = async (req, res) => {
     }
 };
 
+// Delete employee details
 const deleteEmployeeDetails = async (req, res) => {
     try {
         const { id } = req.params;
-        const employeeDetails = await EmployeeDetails.findByIdAndDelete(id);
 
-        if (!employeeDetails) {
-            return res.status(404).json({ message: "Employee Details Not Found" });
+        const deleted = await EmployeeDetails.findByIdAndDelete(id);
+
+        if (!deleted) {
+            return res.status(404).json({ message: "Employee details not found" });
         }
 
-        res.status(200).json({ message: "Security Employee Details Deleted successfully" });
+        res.status(200).json({ message: "Employee details deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -10,11 +10,11 @@ const {
 const department = express.Router();
 
 // Define your routes
-users.get("/departments", getDepartments);
-users.post("/add-departments", createDepartment);
-users.get("/departments/:id", getDepartment);
-users.put("/departments/:id", updateDepartment);
-users.delete("/departments/:id", deleteDepartment);
+department.get("/departments", getDepartments);
+department.post("/add-department", createDepartment);
+department.get("/departments/:id", getDepartment);
+department.put("/departments/:id", updateDepartment);
+department.delete("/departments/:id", deleteDepartment);
 
 
 module.exports = department;
